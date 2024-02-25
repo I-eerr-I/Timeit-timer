@@ -58,5 +58,17 @@ namespace Timeit.Properties {
                 this["MaxTimeouts"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.25")]
+        public float MinOpacity {
+            get {
+                return ((float)(this["MinOpacity"]));
+            }
+            set {
+                this["MinOpacity"] = value;
+            }
+        }
     }
 }

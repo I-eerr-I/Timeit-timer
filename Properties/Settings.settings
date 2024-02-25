@@ -11,5 +11,8 @@
     <Setting Name="MaxTimeouts" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">4</Value>
     </Setting>
+    <Setting Name="MinOpacity" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.25</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

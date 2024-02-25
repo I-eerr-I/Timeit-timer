@@ -18,14 +18,14 @@ namespace Timeit
         #region Constants
 
         const String FORMAT_TIME = "{0:d2}";
-        
+        const String TOOLTIP_OPACITY_FORMAT_CAPTION = "Current opacity {0}%";
+
+
         const char CHECKED_RESET_COUNTER = 'x';
         const char EMPTY_RESET_COUNTER = 'o';
         
         const uint MAX_MAX_TIMEOUTS = 7;
 
-        const float MIN_OPACITY = 0.25f;
-        const float MAX_OPACITY = 1.0f;
         const float FADING_OUT_SPEED = 0.05f;
         const float FADING_IN_SPEED = 0.25f;
 
@@ -117,7 +117,7 @@ namespace Timeit
 
                 if (was_editing)
                 {
-                    saveSetTime();
+                    saveSettings();
                     buttonEdit.BackColor = BackColor;
                 }
                 else
@@ -181,7 +181,8 @@ namespace Timeit
         private bool _is_mouse_over_play = false;
 
         private FadingState _current_fading_state = FadingState.FADING_OUT;
-        
+        private float _min_window_opacity = 0.25f;
+
         private uint _set_seconds = 0;
         private uint _set_minutes = 0;
         
@@ -198,7 +199,11 @@ namespace Timeit
             CurrentMinutes = _set_minutes = Properties.Settings.Default.Minutes;
 
             MaxTimeouts = Properties.Settings.Default.MaxTimeouts;
-            
+
+            _min_window_opacity = Properties.Settings.Default.MinOpacity;
+
+            toolTipOpacity.SetToolTip(trackBarMinOpacity, String.Format(TOOLTIP_OPACITY_FORMAT_CAPTION, trackBarMinOpacity.Value));
+
             updatePlayButton();
             updateControlsEnabled();
         }
@@ -226,7 +231,7 @@ namespace Timeit
             buttonPlay.Enabled = buttonReset.Enabled = !IsEditing;
             textBoxMinutes.Enabled = textBoxSeconds.Enabled = IsEditing;
 
-            buttonTimeoutsMore.Visible = buttonTimeoutsLess.Visible = IsEditing;
+            trackBarMinOpacity.Visible = buttonTimeoutsMore.Visible = buttonTimeoutsLess.Visible = IsEditing;
         }
 
         /// <summary>
@@ -257,7 +262,7 @@ namespace Timeit
         /// <summary>
         /// Saves timer start time to user settings from text boxes.
         /// </summary>
-        private void saveSetTime()
+        private void saveSettings()
         {
             Properties.Settings.Default.Minutes = _set_minutes = uint.Parse(textBoxMinutes.Text);
             Properties.Settings.Default.Seconds = _set_seconds = uint.Parse(textBoxSeconds.Text);
@@ -365,9 +370,9 @@ namespace Timeit
         private void timerFadingAnimation_Tick(object sender, EventArgs e)
         {
             Opacity += (_current_fading_state == FadingState.FADING_OUT) ? -FADING_OUT_SPEED : FADING_IN_SPEED;
-            if (Opacity < MIN_OPACITY || Opacity > MAX_OPACITY)
+            if (Opacity < _min_window_opacity || Opacity > 1.0f)
             {
-                Opacity = Math.Min(Math.Max(MIN_OPACITY, Opacity), MAX_OPACITY);
+                Opacity = Math.Min(Math.Max(_min_window_opacity, Opacity), 1.0f);
                 timerFadingAnimation.Stop();
             }
             Update();
@@ -571,11 +576,16 @@ namespace Timeit
 
         #endregion
 
+        #region Track bar opacity
+
+        private void trackBarMinOpacity_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.MinOpacity = _min_window_opacity = (float)trackBarMinOpacity.Value / 100.0f;
+            toolTipOpacity.SetToolTip(trackBarMinOpacity, String.Format(TOOLTIP_OPACITY_FORMAT_CAPTION, trackBarMinOpacity.Value));
+        }
+
         #endregion
 
-        private void tableLayoutTimeouts_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        #endregion
     }
 }

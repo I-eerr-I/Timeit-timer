@@ -38,6 +38,7 @@
             this.tableLayoutTitleBar = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
+            this.trackBarMinOpacity = new System.Windows.Forms.TrackBar();
             this.tableLayoutTimer = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxSeconds = new System.Windows.Forms.TextBox();
             this.buttonReset = new System.Windows.Forms.Button();
@@ -48,9 +49,11 @@
             this.timerTimeoutAnimation = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.timerFadingAnimation = new System.Windows.Forms.Timer(this.components);
+            this.toolTipOpacity = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutMain.SuspendLayout();
             this.tableLayoutTimeouts.SuspendLayout();
             this.tableLayoutTitleBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMinOpacity)).BeginInit();
             this.tableLayoutTimer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,17 +158,19 @@
             // 
             // tableLayoutTitleBar
             // 
-            this.tableLayoutTitleBar.ColumnCount = 2;
-            this.tableLayoutTitleBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutTitleBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutTitleBar.ColumnCount = 3;
+            this.tableLayoutTitleBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24F));
+            this.tableLayoutTitleBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52F));
+            this.tableLayoutTitleBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24F));
             this.tableLayoutTitleBar.Controls.Add(this.buttonEdit, 0, 0);
-            this.tableLayoutTitleBar.Controls.Add(this.buttonClose, 1, 0);
+            this.tableLayoutTitleBar.Controls.Add(this.buttonClose, 2, 0);
+            this.tableLayoutTitleBar.Controls.Add(this.trackBarMinOpacity, 1, 0);
             this.tableLayoutTitleBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutTitleBar.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutTitleBar.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutTitleBar.Name = "tableLayoutTitleBar";
             this.tableLayoutTitleBar.RowCount = 1;
-            this.tableLayoutTitleBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutTitleBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutTitleBar.Size = new System.Drawing.Size(180, 27);
             this.tableLayoutTitleBar.TabIndex = 0;
             this.tableLayoutTitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.onWindowDragMouseDown);
@@ -176,7 +181,7 @@
             // 
             this.buttonEdit.BackgroundImage = global::Timeit.Properties.Resources.edit;
             this.buttonEdit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonEdit.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonEdit.FlatAppearance.BorderSize = 0;
             this.buttonEdit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(72)))), ((int)(((byte)(72)))));
@@ -185,7 +190,7 @@
             this.buttonEdit.Location = new System.Drawing.Point(0, 0);
             this.buttonEdit.Margin = new System.Windows.Forms.Padding(0);
             this.buttonEdit.Name = "buttonEdit";
-            this.buttonEdit.Size = new System.Drawing.Size(47, 27);
+            this.buttonEdit.Size = new System.Drawing.Size(43, 27);
             this.buttonEdit.TabIndex = 0;
             this.buttonEdit.TabStop = false;
             this.buttonEdit.UseVisualStyleBackColor = true;
@@ -197,22 +202,38 @@
             // 
             this.buttonClose.BackgroundImage = global::Timeit.Properties.Resources.close;
             this.buttonClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonClose.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonClose.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonClose.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonClose.FlatAppearance.BorderSize = 0;
             this.buttonClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
             this.buttonClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
             this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClose.Location = new System.Drawing.Point(133, 0);
+            this.buttonClose.Location = new System.Drawing.Point(136, 0);
             this.buttonClose.Margin = new System.Windows.Forms.Padding(0);
             this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(47, 27);
+            this.buttonClose.Size = new System.Drawing.Size(44, 27);
             this.buttonClose.TabIndex = 0;
             this.buttonClose.TabStop = false;
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             this.buttonClose.MouseEnter += new System.EventHandler(this.buttonClose_MouseEnter);
             this.buttonClose.MouseLeave += new System.EventHandler(this.buttonClose_MouseLeave);
+            // 
+            // trackBarMinOpacity
+            // 
+            this.trackBarMinOpacity.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trackBarMinOpacity.Location = new System.Drawing.Point(43, 5);
+            this.trackBarMinOpacity.Margin = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            this.trackBarMinOpacity.Maximum = 100;
+            this.trackBarMinOpacity.Minimum = 10;
+            this.trackBarMinOpacity.Name = "trackBarMinOpacity";
+            this.trackBarMinOpacity.Size = new System.Drawing.Size(93, 17);
+            this.trackBarMinOpacity.TabIndex = 1;
+            this.trackBarMinOpacity.TabStop = false;
+            this.trackBarMinOpacity.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBarMinOpacity.Value = 10;
+            this.trackBarMinOpacity.Visible = false;
+            this.trackBarMinOpacity.ValueChanged += new System.EventHandler(this.trackBarMinOpacity_ValueChanged);
             // 
             // tableLayoutTimer
             // 
@@ -349,6 +370,12 @@
             this.timerFadingAnimation.Interval = 10;
             this.timerFadingAnimation.Tick += new System.EventHandler(this.timerFadingAnimation_Tick);
             // 
+            // toolTipOpacity
+            // 
+            this.toolTipOpacity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolTipOpacity.ForeColor = System.Drawing.Color.Gainsboro;
+            this.toolTipOpacity.ToolTipTitle = "Change minimum window opacity";
+            // 
             // Main
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
@@ -369,6 +396,8 @@
             this.tableLayoutTimeouts.ResumeLayout(false);
             this.tableLayoutTimeouts.PerformLayout();
             this.tableLayoutTitleBar.ResumeLayout(false);
+            this.tableLayoutTitleBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMinOpacity)).EndInit();
             this.tableLayoutTimer.ResumeLayout(false);
             this.tableLayoutTimer.PerformLayout();
             this.ResumeLayout(false);
@@ -394,6 +423,8 @@
         private System.Windows.Forms.Timer timerTimeoutAnimation;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Timer timerFadingAnimation;
+        private System.Windows.Forms.TrackBar trackBarMinOpacity;
+        private System.Windows.Forms.ToolTip toolTipOpacity;
     }
 }
 
