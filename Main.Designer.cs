@@ -50,6 +50,7 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.timerFadingAnimation = new System.Windows.Forms.Timer(this.components);
             this.toolTipOpacity = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTipMaxTimeouts = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutMain.SuspendLayout();
             this.tableLayoutTimeouts.SuspendLayout();
             this.tableLayoutTitleBar.SuspendLayout();
@@ -143,14 +144,14 @@
             // 
             this.labelTimeoutsCounter.AutoSize = true;
             this.labelTimeoutsCounter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelTimeoutsCounter.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold);
+            this.labelTimeoutsCounter.Font = new System.Drawing.Font("Consolas", 7.5F, System.Drawing.FontStyle.Bold);
             this.labelTimeoutsCounter.ForeColor = System.Drawing.Color.Gainsboro;
             this.labelTimeoutsCounter.Location = new System.Drawing.Point(43, 0);
             this.labelTimeoutsCounter.Margin = new System.Windows.Forms.Padding(0);
             this.labelTimeoutsCounter.Name = "labelTimeoutsCounter";
             this.labelTimeoutsCounter.Size = new System.Drawing.Size(93, 27);
             this.labelTimeoutsCounter.TabIndex = 0;
-            this.labelTimeoutsCounter.Text = "o o o o o o o";
+            this.labelTimeoutsCounter.Text = "x o";
             this.labelTimeoutsCounter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelTimeoutsCounter.MouseDown += new System.Windows.Forms.MouseEventHandler(this.onWindowDragMouseDown);
             this.labelTimeoutsCounter.MouseMove += new System.Windows.Forms.MouseEventHandler(this.onWindowDragMouseMove);
@@ -376,6 +377,11 @@
             this.toolTipOpacity.ForeColor = System.Drawing.Color.Gainsboro;
             this.toolTipOpacity.ToolTipTitle = "Change minimum window opacity";
             // 
+            // toolTipMaxTimeouts
+            // 
+            this.toolTipMaxTimeouts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolTipMaxTimeouts.ForeColor = System.Drawing.Color.Gainsboro;
+            // 
             // Main
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
@@ -425,6 +431,7 @@
         private System.Windows.Forms.Timer timerFadingAnimation;
         private System.Windows.Forms.TrackBar trackBarMinOpacity;
         private System.Windows.Forms.ToolTip toolTipOpacity;
+        private System.Windows.Forms.ToolTip toolTipMaxTimeouts;
     }
 }
 

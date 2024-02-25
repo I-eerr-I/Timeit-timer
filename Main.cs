@@ -19,12 +19,13 @@ namespace Timeit
 
         const String FORMAT_TIME = "{0:d2}";
         const String TOOLTIP_OPACITY_FORMAT_CAPTION = "Current opacity {0}%";
+        const String TOOLTIP_TIMEOUTS_FORMAT_CAPTION = "Maximum timeouts: {0}";
 
 
         const char CHECKED_RESET_COUNTER = 'x';
         const char EMPTY_RESET_COUNTER = 'o';
         
-        const uint MAX_MAX_TIMEOUTS = 7;
+        const uint MAX_MAX_TIMEOUTS = 18;
 
         const float FADING_OUT_SPEED = 0.05f;
         const float FADING_IN_SPEED = 0.25f;
@@ -152,6 +153,8 @@ namespace Timeit
                 CurrentTimeouts = Math.Min(CurrentTimeouts, value);
                 updateTimeoutsText();
 
+                updateMaxTimeoutsTooltip();
+
                 Properties.Settings.Default.MaxTimeouts = value;
                 Properties.Settings.Default.Save();
             }
@@ -204,11 +207,20 @@ namespace Timeit
 
             toolTipOpacity.SetToolTip(trackBarMinOpacity, String.Format(TOOLTIP_OPACITY_FORMAT_CAPTION, trackBarMinOpacity.Value));
 
+            updateMaxTimeoutsTooltip();
             updatePlayButton();
             updateControlsEnabled();
         }
 
         #region Utils
+
+        private void updateMaxTimeoutsTooltip()
+        {
+            String maximumTimeoutsTooltipCaption = String.Format(TOOLTIP_TIMEOUTS_FORMAT_CAPTION, MaxTimeouts);
+            toolTipMaxTimeouts.SetToolTip(labelTimeoutsCounter, maximumTimeoutsTooltipCaption);
+            toolTipMaxTimeouts.SetToolTip(buttonTimeoutsLess, maximumTimeoutsTooltipCaption);
+            toolTipMaxTimeouts.SetToolTip(buttonTimeoutsMore, maximumTimeoutsTooltipCaption);
+        }
 
         /// <summary>
         /// Updates play button icon. 
@@ -273,15 +285,17 @@ namespace Timeit
         {
             IsPlaying = false;
             CurrentTimeouts++;
-            new ToastContentBuilder()
+            if (!_is_active)
+            {
+                new ToastContentBuilder()
                 .AddText("Time is up!")
                 .AddButton(new ToastButton()
                     .SetContent("Dismiss")
                     .SetBackgroundActivation())
                 .SetToastScenario(ToastScenario.Reminder)
                 .Show();
-            if (!_is_active)
                 timerTimeoutAnimation.Start();
+            }
         }
 
         private void stopTimeoutAnimation()
@@ -302,10 +316,6 @@ namespace Timeit
             {
                 if (e.KeyCode == Keys.Escape || e.KeyCode == Keys.Enter)
                     IsEditing = false;
-                if (e.KeyCode == Keys.Left)
-                    MaxTimeouts--;
-                if (e.KeyCode == Keys.Right)
-                    MaxTimeouts++;
             }
             else
             {
