@@ -111,6 +111,9 @@
             this.buttonTimeoutsMore.TabStop = false;
             this.buttonTimeoutsMore.UseVisualStyleBackColor = true;
             this.buttonTimeoutsMore.Visible = false;
+            this.buttonTimeoutsMore.Click += new System.EventHandler(this.buttonTimeoutsMore_Click);
+            this.buttonTimeoutsMore.MouseEnter += new System.EventHandler(this.buttonTimeoutsMore_MouseEnter);
+            this.buttonTimeoutsMore.MouseLeave += new System.EventHandler(this.buttonTimeoutsMore_MouseLeave);
             // 
             // buttonTimeoutsLess
             // 
@@ -129,6 +132,9 @@
             this.buttonTimeoutsLess.TabStop = false;
             this.buttonTimeoutsLess.UseVisualStyleBackColor = true;
             this.buttonTimeoutsLess.Visible = false;
+            this.buttonTimeoutsLess.Click += new System.EventHandler(this.buttonTimeoutsLess_Click);
+            this.buttonTimeoutsLess.MouseEnter += new System.EventHandler(this.buttonTimeoutsLess_MouseEnter);
+            this.buttonTimeoutsLess.MouseLeave += new System.EventHandler(this.buttonTimeoutsLess_MouseLeave);
             // 
             // labelTimeoutsCounter
             // 
@@ -255,16 +261,16 @@
             // 
             this.buttonReset.BackgroundImage = global::Timeit.Properties.Resources.reset;
             this.buttonReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonReset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonReset.Dock = System.Windows.Forms.DockStyle.Left;
             this.buttonReset.FlatAppearance.BorderSize = 0;
             this.buttonReset.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonReset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonReset.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.buttonReset.Location = new System.Drawing.Point(149, 8);
-            this.buttonReset.Margin = new System.Windows.Forms.Padding(8);
+            this.buttonReset.Location = new System.Drawing.Point(141, 10);
+            this.buttonReset.Margin = new System.Windows.Forms.Padding(0, 10, 8, 10);
             this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(23, 30);
+            this.buttonReset.Size = new System.Drawing.Size(31, 26);
             this.buttonReset.TabIndex = 1;
             this.buttonReset.TabStop = false;
             this.buttonReset.UseVisualStyleBackColor = true;
@@ -292,16 +298,16 @@
             // 
             this.buttonPlay.BackgroundImage = global::Timeit.Properties.Resources.play;
             this.buttonPlay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonPlay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonPlay.Dock = System.Windows.Forms.DockStyle.Right;
             this.buttonPlay.FlatAppearance.BorderSize = 0;
             this.buttonPlay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonPlay.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonPlay.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.buttonPlay.Location = new System.Drawing.Point(8, 8);
-            this.buttonPlay.Margin = new System.Windows.Forms.Padding(8);
+            this.buttonPlay.Location = new System.Drawing.Point(8, 10);
+            this.buttonPlay.Margin = new System.Windows.Forms.Padding(8, 10, 0, 10);
             this.buttonPlay.Name = "buttonPlay";
-            this.buttonPlay.Size = new System.Drawing.Size(23, 30);
+            this.buttonPlay.Size = new System.Drawing.Size(31, 26);
             this.buttonPlay.TabIndex = 0;
             this.buttonPlay.TabStop = false;
             this.buttonPlay.UseVisualStyleBackColor = true;
