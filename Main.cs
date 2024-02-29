@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Microsoft.Toolkit.Uwp.Notifications;
-
+using Windows.Security.Authentication.OnlineId;
 
 namespace Timeit
 {
@@ -18,6 +18,7 @@ namespace Timeit
         #region Constants
 
         const String FORMAT_TIME = "{0:d2}";
+        const String FORMAT_STOPWATCH = "{0:d2}:{1:d2}:{2:d2}";
         const String TOOLTIP_OPACITY_FORMAT_CAPTION = "Current opacity {0}%";
         const String TOOLTIP_TIMEOUTS_FORMAT_CAPTION = "Maximum timeouts: {0}";
 
@@ -64,6 +65,67 @@ namespace Timeit
             }
         }
 
+        private uint __stopwatch_seconds = 0;
+        protected uint StopwatchSeconds
+        {
+            get { return __stopwatch_seconds; }
+            set
+            {
+                if (__stopwatch_seconds == value) return;
+                
+                __stopwatch_seconds = value;
+                updateStopwatchTextTime();
+            }
+        }
+
+        private uint __stopwatch_minutes = 0;
+        protected uint StopwatchMinutes
+        {
+            get { return __stopwatch_minutes; }
+            set
+            {
+                if (__stopwatch_minutes == value) return;
+
+                __stopwatch_minutes = value;
+                updateStopwatchTextTime();
+            }
+        }
+
+        private uint __stopwatch_hours = 0;
+        protected uint StopwatchHours
+        {
+            get { return __stopwatch_hours; }
+            set
+            {
+                if (__stopwatch_hours == value) return;
+
+                __stopwatch_hours = value;
+                updateStopwatchTextTime();
+            }
+        }
+
+        private bool __is_stopwatch_on = false;
+        protected bool IsStopwatchOn
+        {
+            get { return __is_stopwatch_on; } 
+            set
+            {
+                if (__is_stopwatch_on == value) return;
+                
+                bool was_on = __is_stopwatch_on;
+                
+                __is_stopwatch_on = value;
+
+                if (!was_on)
+                {
+                    StopwatchSeconds = 0;
+                    StopwatchMinutes = 0;
+                    StopwatchHours = 0;
+                }
+            }
+        }
+
+
         /// <summary>
         /// Whether the timer is counting down
         /// </summary>
@@ -78,25 +140,30 @@ namespace Timeit
                 bool is_done = CurrentMinutes == 0 && CurrentSeconds == 0;
                 bool was_playing = __is_playing;
                 __is_playing = value;
+                updatePlayButton();
 
                 if (was_playing)
                 {
-                    timer.Stop();
+                    if (CurrentTimeouts == MaxTimeouts)
+                        IsStopwatchOn = false;
                 }
                 else
                 {
-                    timer.Start();
+                    if (!IsStopwatchOn)
+                        IsStopwatchOn = true;
+                    
                     if (timerTimeoutAnimation.Enabled)
                         stopTimeoutAnimation();
+                    
                     if (CurrentTimeouts == MaxTimeouts)
                         CurrentTimeouts = 0;
+                    
                     if (is_done)
                     {
                         CurrentMinutes = _set_minutes;
                         CurrentSeconds = _set_seconds;
                     }
                 }
-                updatePlayButton();
             }
         }
 
@@ -112,10 +179,8 @@ namespace Timeit
                 if (__is_editing == value) return;
                 
                 bool was_editing = __is_editing;
+                __is_editing = value;
                 
-                if (!was_editing && IsPlaying)
-                    IsPlaying = false;
-
                 if (was_editing)
                 {
                     saveSettings();
@@ -123,6 +188,13 @@ namespace Timeit
                 }
                 else
                 {
+                    if (IsPlaying) IsPlaying = false;
+                    if (IsStopwatchOn)
+                    {
+                        StopwatchSeconds = StopwatchMinutes = StopwatchHours = 0;
+                        IsStopwatchOn = false;
+                    }
+
                     if (timerTimeoutAnimation.Enabled)
                         stopTimeoutAnimation();
                     textBoxMinutes.Focus();
@@ -130,8 +202,6 @@ namespace Timeit
                     buttonEdit.BackColor = buttonEdit.FlatAppearance.MouseDownBackColor;
                 }
                 
-                __is_editing = value;
-
                 CurrentMinutes = _set_minutes;
                 CurrentSeconds = _set_seconds;
                 updateControlsEnabled();
@@ -210,6 +280,8 @@ namespace Timeit
             updateMaxTimeoutsTooltip();
             updatePlayButton();
             updateControlsEnabled();
+
+            timer.Start();
         }
 
         #region Utils
@@ -240,7 +312,6 @@ namespace Timeit
         /// </summary>
         private void updateControlsEnabled()
         {
-            buttonPlay.Enabled = buttonReset.Enabled = !IsEditing;
             textBoxMinutes.Enabled = textBoxSeconds.Enabled = IsEditing;
 
             trackBarMinOpacity.Visible = buttonTimeoutsMore.Visible = buttonTimeoutsLess.Visible = IsEditing;
@@ -283,8 +354,8 @@ namespace Timeit
 
         private void onTimeout()
         {
-            IsPlaying = false;
             CurrentTimeouts++;
+            IsPlaying = false;
             if (!_is_active)
             {
                 new ToastContentBuilder()
@@ -302,6 +373,56 @@ namespace Timeit
         {
             timerTimeoutAnimation.Stop();
             textBoxMinutes.Visible = textBoxSeconds.Visible = true;
+        }
+
+        private void updateStopwatchTextTime()
+        {
+            labelStopwatch.Text = String.Format(FORMAT_STOPWATCH, StopwatchHours, StopwatchMinutes, StopwatchSeconds);
+        }
+
+        private void updateTimerTime()
+        {
+            uint seconds = CurrentSeconds;
+            uint minutes = CurrentMinutes;
+            if (seconds == 1 && minutes == 0)
+            {
+                seconds--;
+                onTimeout();
+            }
+            else if (seconds == 0)
+            {
+                seconds = 59;
+                minutes--;
+            }
+            else
+            {
+                seconds--;
+            }
+
+            CurrentMinutes = minutes;
+            CurrentSeconds = seconds;
+        }
+
+        private void updateStopwatchTime()
+        {
+            uint seconds = StopwatchSeconds;
+            uint minutes = StopwatchMinutes;
+            uint hours = StopwatchHours;
+
+            seconds++;
+            if (seconds >= 60)
+            {
+                seconds = 0;
+                minutes++;
+                if (minutes >= 60)
+                {
+                    hours++;
+                }
+            }
+
+            StopwatchHours = hours;
+            StopwatchMinutes = minutes;
+            StopwatchSeconds = seconds;
         }
 
         #endregion
@@ -351,25 +472,11 @@ namespace Timeit
         /// </summary>
         private void timer_Tick(object sender, EventArgs e)
         {
-            uint seconds = CurrentSeconds;
-            uint minutes = CurrentMinutes;
-            if (seconds == 1 && minutes == 0)
-            {
-                seconds--;
-                onTimeout();
-            }
-            else if (seconds == 0)
-            {
-                seconds = 59;
-                minutes--;
-            }
-            else
-            {
-                seconds--;
-            }
-         
-            CurrentMinutes = minutes;
-            CurrentSeconds = seconds;
+            if (IsPlaying)
+                updateTimerTime();
+
+            if (IsStopwatchOn)
+                updateStopwatchTime();
         }
 
         private void timerTimeoutAnimation_Tick(object sender, EventArgs e)
@@ -433,6 +540,7 @@ namespace Timeit
         private void buttonPlay_Click(object sender, EventArgs e)
         {
             IsPlaying = !IsPlaying;
+            IsEditing = false;
         }
 
         private void buttonPlay_MouseEnter(object sender, EventArgs e)
@@ -466,9 +574,10 @@ namespace Timeit
         private void buttonReset_Click(object sender, EventArgs e)
         {
             CurrentTimeouts = 0;
-            IsPlaying = false;
+            IsEditing = IsPlaying = IsStopwatchOn = false;
             CurrentMinutes = _set_minutes;
             CurrentSeconds = _set_seconds;
+            StopwatchHours = StopwatchMinutes = StopwatchSeconds = 0;
         }
 
         #endregion
@@ -597,5 +706,6 @@ namespace Timeit
         #endregion
 
         #endregion
+
     }
 }
