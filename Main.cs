@@ -142,12 +142,7 @@ namespace Timeit
                 __is_playing = value;
                 updatePlayButton();
 
-                if (was_playing)
-                {
-                    if (CurrentTimeouts == MaxTimeouts)
-                        IsStopwatchOn = false;
-                }
-                else
+                if (!was_playing)
                 {
                     if (!IsStopwatchOn)
                         IsStopwatchOn = true;
@@ -156,7 +151,10 @@ namespace Timeit
                         stopTimeoutAnimation();
                     
                     if (CurrentTimeouts == MaxTimeouts)
+                    {
                         CurrentTimeouts = 0;
+                        StopwatchHours = StopwatchMinutes = StopwatchSeconds = 0;
+                    }
                     
                     if (is_done)
                     {
