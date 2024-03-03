@@ -575,7 +575,6 @@ namespace Timeit
             IsEditing = IsPlaying = IsStopwatchOn = false;
             CurrentMinutes = _set_minutes;
             CurrentSeconds = _set_seconds;
-            StopwatchHours = StopwatchMinutes = StopwatchSeconds = 0;
         }
 
         #endregion
