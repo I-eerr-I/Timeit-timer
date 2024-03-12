@@ -414,6 +414,7 @@ namespace Timeit
                 minutes++;
                 if (minutes >= 60)
                 {
+                    minutes = 0;
                     hours++;
                 }
             }

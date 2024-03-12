@@ -45,13 +45,13 @@
             this.labelTimerSeparator = new System.Windows.Forms.Label();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.textBoxMinutes = new System.Windows.Forms.TextBox();
+            this.labelStopwatch = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.timerTimeoutAnimation = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.timerFadingAnimation = new System.Windows.Forms.Timer(this.components);
             this.toolTipOpacity = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipMaxTimeouts = new System.Windows.Forms.ToolTip(this.components);
-            this.labelStopwatch = new System.Windows.Forms.Label();
             this.tableLayoutMain.SuspendLayout();
             this.tableLayoutTimeouts.SuspendLayout();
             this.tableLayoutTitleBar.SuspendLayout();
@@ -359,6 +359,23 @@
             this.textBoxMinutes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateKeyPress);
             this.textBoxMinutes.Validated += new System.EventHandler(this.textBoxMinutes_Validated);
             // 
+            // labelStopwatch
+            // 
+            this.labelStopwatch.AutoSize = true;
+            this.labelStopwatch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelStopwatch.Font = new System.Drawing.Font("Segoe UI", 7F);
+            this.labelStopwatch.ForeColor = System.Drawing.Color.DimGray;
+            this.labelStopwatch.Location = new System.Drawing.Point(0, 75);
+            this.labelStopwatch.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStopwatch.Name = "labelStopwatch";
+            this.labelStopwatch.Size = new System.Drawing.Size(180, 12);
+            this.labelStopwatch.TabIndex = 4;
+            this.labelStopwatch.Text = "00:00:00";
+            this.labelStopwatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStopwatch.MouseDown += new System.Windows.Forms.MouseEventHandler(this.onWindowDragMouseDown);
+            this.labelStopwatch.MouseMove += new System.Windows.Forms.MouseEventHandler(this.onWindowDragMouseMove);
+            this.labelStopwatch.MouseUp += new System.Windows.Forms.MouseEventHandler(this.onWindowDragMouseUp);
+            // 
             // timer
             // 
             this.timer.Interval = 1000;
@@ -384,23 +401,6 @@
             // 
             this.toolTipMaxTimeouts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolTipMaxTimeouts.ForeColor = System.Drawing.Color.Gainsboro;
-            // 
-            // labelStopwatch
-            // 
-            this.labelStopwatch.AutoSize = true;
-            this.labelStopwatch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelStopwatch.Font = new System.Drawing.Font("Segoe UI", 7F);
-            this.labelStopwatch.ForeColor = System.Drawing.Color.DimGray;
-            this.labelStopwatch.Location = new System.Drawing.Point(0, 75);
-            this.labelStopwatch.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStopwatch.Name = "labelStopwatch";
-            this.labelStopwatch.Size = new System.Drawing.Size(180, 12);
-            this.labelStopwatch.TabIndex = 4;
-            this.labelStopwatch.Text = "00:00:00";
-            this.labelStopwatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStopwatch.MouseDown += new System.Windows.Forms.MouseEventHandler(this.onWindowDragMouseDown);
-            this.labelStopwatch.MouseMove += new System.Windows.Forms.MouseEventHandler(this.onWindowDragMouseMove);
-            this.labelStopwatch.MouseUp += new System.Windows.Forms.MouseEventHandler(this.onWindowDragMouseUp);
             // 
             // Main
             // 
